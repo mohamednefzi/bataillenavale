@@ -18,9 +18,16 @@ public class Pos {
 	}
 	
 	public boolean compareTo(Pos aPos) {
-		boolean result = true;
+		boolean result;
+		int posX2;
+		int posY2;
 		
+		posX2 = aPos.getPosX();
+		posY2 = aPos.getPosY();
 		
+		if ((posX2 == this.posX)&&(posY2==this.posY)) {
+			result =true;
+		}else {result = false;}
 		
 		return result;
 	}

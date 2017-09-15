@@ -20,6 +20,8 @@ public class Flotte {
 			flotte.add(new Bateau(newPosX, newPosY, newDirection[i], 4 ));		
 		}
 	}
+	
+	
 	private boolean[] setRandDir(int nbs) {
 		boolean[] dirArray = new boolean[nbs];
 		for(int i = 0; i<nbs; i++) {
@@ -27,6 +29,8 @@ public class Flotte {
 		}
 		return dirArray;
 	}
+	
+	
 	private int setRandPos( boolean dir, int size, boolean type) {
 		int newPos;
 		
@@ -40,6 +44,10 @@ public class Flotte {
 			newPos = (int) ((Math.random()*10)%(10-size)); 
 		}
 		return newPos;
+		
+		
+		
+		
 	};
 	
 	

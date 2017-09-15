@@ -1,23 +1,9 @@
 package flotte;
+import java.util.ArrayList;
 
-class Pos{
-	private int posX;
-	private int posY;
-	
-	Pos(int posX, int posY){
-		this.posX = posX;
-		this.posY = posY;
-	}
-	
-	public int getPosX() {
-		return this.posX;
-	}
-	public int getPosY() {
-		return this.posY;
-	}
-}
+import model.Pos;
 
- public class Bateau {
+public class Bateau {
 	private Pos posTete;
 	private boolean direction; //true = horizontale, false = vertical
 	private int taille;
@@ -46,5 +32,32 @@ class Pos{
 	public boolean getAlive() {
 		return this.alive;
 	}
+	public ArrayList<Pos> getAllPos(){
+		ArrayList<Pos> allPos = new ArrayList<Pos>(taille);
+		allPos.add(posTete);
+		
+		if(direction == true) {
+			
+			for (int i = 0; i<taille; i++) {
+				Pos oldPos = (Pos) allPos.get(i);
+				Pos newPos = new Pos(oldPos.getPosX()+1,oldPos.getPosY());
+				
+				allPos.add(newPos);
+			}
+			
+		}else {
+			
+			for (int i = 0; i<taille; i++) {
+				Pos oldPos = (Pos) allPos.get(i);
+				Pos newPos = new Pos(oldPos.getPosX(),oldPos.getPosY()+1);
+				
+				allPos.add(newPos);
+			}
+			
+		}
+		
+		return allPos;
+	}
+	
 	
 }
