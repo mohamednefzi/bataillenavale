@@ -1,19 +1,17 @@
 package flotte;
 
 import java.util.ArrayList;
-
 import model.Pos;
 
 public class Flotte {
 
 	private ArrayList<Bateau> flotte;
-	private int tailleFlotte;
-	
+
+
 	////////-----------CONSTRUCTEURS DE FLOTTE IA------------------//////////////
 	
 	public Flotte(int qty) {	
 		boolean[] newDirection= setRandDir(qty);
-		this.tailleFlotte = qty;
 		
 		for(int i=0; i<qty; i++) {
 			int newPosX;
@@ -31,9 +29,11 @@ public class Flotte {
 				ArrayList<Pos> poss = new Bateau(newPosX, newPosY, newDirection[i], j ).getAllPos();
 				
 				for(int k=0; k<j; k++) {	
-					if(collision(poss.get(k), false)) {
-						noColision = false;
-					}
+					try {
+						if(collision(poss.get(k), false)) {
+							noColision = false;
+						}
+					} catch (flotteDetruite e) {}
 				}
 				
 			}while (!noColision);
@@ -53,20 +53,19 @@ public class Flotte {
 		int newPos;
 		
 		if (dir && type) {
-			newPos = (int) ((Math.random()*10)%(10-size)); 
+			newPos = (int) ((Math.random()*10)-(size-1)); 
 		}
 		else if (dir ^ type) {
-			newPos= (int) ((Math.random()*10)%10); 
+			newPos= (int) (Math.random()*10); 
 		}
 		else {
-			newPos = (int) ((Math.random()*10)%(10-size)); 
+			newPos = (int) ((Math.random()*10)-(size-1)); 
 		}
 		return newPos;	
 	};
 	
 	/////////--------------Constructeur de flotte Manuel-------------/////////////
 	public Flotte() {
-		tailleFlotte = 4;
 	}
 	public void setNewShip(int posX, int posY , boolean direction, int taille) {
 		flotte.add(new Bateau(posX, posY, direction, taille));
@@ -78,7 +77,7 @@ public class Flotte {
 	
 	///////---------------------METHODES-----------------///////////////////
 	
-	public boolean collision(Pos aPos, boolean toDestroye) {
+	public boolean collision(Pos aPos, boolean toDestroy) throws flotteDetruite {
 		boolean result = false;
 		
 		for(int i = 0; i<4; i++) {
@@ -86,20 +85,37 @@ public class Flotte {
 			
 			for (int j =0; j<flotte.get(i).getTaille();i++) {
 				
-				if(aPos.compareTo(poss.get(j))) {result = true;}
+				if(aPos.compareTo(poss.get(j))) {
+					result = true;
+					if (toDestroy) {
+						aPos.destroy();
+						if(!flotte.get(i).checkAlive()) {
+							if(checkFlotteLife()) {throw new flotteDetruite();}
+						}
+					}
+					
+				}
 				
 			}
 			
 		}
 		
-		if (result && toDestroye) {
-			aPos.destroy();
-		}
 		
 		return result;
 	}
 	
 	
+	public boolean checkFlotteLife() {
+		boolean result = true;
+		int bateaux = flotte.size();
+		for(int i = 0; i<flotte.size(); i++) {
+			if (!flotte.get(i).getAlive()) {
+				bateaux--;
+			}				
+		}
+		if (bateaux == 0) {result = false;}			
+		return result;
+	}
 	
 	
 }
