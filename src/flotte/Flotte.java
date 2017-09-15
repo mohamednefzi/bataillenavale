@@ -31,7 +31,7 @@ public class Flotte {
 				ArrayList<Pos> poss = new Bateau(newPosX, newPosY, newDirection[i], j ).getAllPos();
 				
 				for(int k=0; k<j; k++) {	
-					if(collision(poss.get(k))) {
+					if(collision(poss.get(k), false)) {
 						noColision = false;
 					}
 				}
@@ -66,10 +66,10 @@ public class Flotte {
 	
 	/////////--------------Constructeur de flotte Manuel-------------/////////////
 	public Flotte() {
-			
+		tailleFlotte = 4;
 	}
-	public void setNewShip() {
-		
+	public void setNewShip(int posX, int posY , boolean direction, int taille) {
+		flotte.add(new Bateau(posX, posY, direction, taille));
 	}
 	
 	
@@ -78,7 +78,7 @@ public class Flotte {
 	
 	///////---------------------METHODES-----------------///////////////////
 	
-	public boolean collision(Pos aPos) {
+	public boolean collision(Pos aPos, boolean toDestroye) {
 		boolean result = false;
 		
 		for(int i = 0; i<4; i++) {
@@ -92,6 +92,9 @@ public class Flotte {
 			
 		}
 		
+		if (result && toDestroye) {
+			aPos.destroy();
+		}
 		
 		return result;
 	}
