@@ -1,8 +1,6 @@
-/BatailleUI$Bateau.class
-/BatailleUI$Case.class
-/BatailleUI$menuEvent$1.class
-/BatailleUI$menuEvent$2.class
-/BatailleUI$menuEvent$3.class
-/BatailleUI$menuEvent.class
 /BatailleUI.class
+/flotte/
 /vue/
+/model/
+/colision/
+/Pos/
