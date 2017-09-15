@@ -19,16 +19,26 @@ import javax.swing.JPanel;
 public class BatailleUI extends JFrame {
 	// attributs
 	private ArrayList<Bateau> bateauJoueur;
+	private ArrayList<Bateau> bateauJoueurEnPlace;
+	
 	private JPanel panneauEntete;
-	private ArrayList <JMenuItem> menu= new ArrayList<>();
+	int tailleX;
+	int TailleY;
+	private ArrayList <JMenuItem> menu;
+	
+	//lemain batilleUI
 	public static void main(String[] args) {
-		new BatailleUI();
+		new BatailleUI(10,10);
 	}
 
 	// contructeur
-	public BatailleUI() {
+	public BatailleUI(int tailleX,int tailleY) {
 		super("Bataille navale");
+		menu= new ArrayList<>();
+		this.tailleX=tailleX;
+		this.TailleY=tailleY;
 		bateauJoueur = new ArrayList<Bateau>();
+		bateauJoueurEnPlace = new ArrayList<Bateau>();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		ImageIcon icone = new ImageIcon("images/icone.jpg");
@@ -79,11 +89,43 @@ public class BatailleUI extends JFrame {
 		return menu;
 	}
 
-	// methodes
+	
 	public void addBateau(Bateau bateau) {
 		bateauJoueur.add(bateau);
 	}
+	public void addBateauEnplace(Bateau bateau) {
+		bateauJoueurEnPlace.add(bateau);
+	}
+	public JPanel getPanneauEntete() {
+		return panneauEntete;
+	}
 
+	public ArrayList<Bateau> getBateauJoueurEnPlace() {
+		return bateauJoueurEnPlace;
+	}
+
+	public void setBateauJoueurEnPlace(ArrayList<Bateau> bateauJoueurEnPlace) {
+		this.bateauJoueurEnPlace = bateauJoueurEnPlace;
+	}
+
+
+	public int getTailleX() {
+		return tailleX;
+	}
+
+	public void setTailleX(int tailleX) {
+		this.tailleX = tailleX;
+	}
+
+	public int getTailleY() {
+		return TailleY;
+	}
+
+	public void setTailleY(int tailleY) {
+		TailleY = tailleY;
+	}
+
+	// methodes
 	// methode pour desactiver tout les composant d'un conteneur de type object
 	public void setEnabledAll(Object object, boolean state) {
 		if (object instanceof Container) {
@@ -101,7 +143,8 @@ public class BatailleUI extends JFrame {
 			}
 		}
 	}
-
+	//methode pour ajouter bateau dans bateauplacé
+	
 	// methode de creation de menu
 	private void createMenu(JMenu nomMenu,String[]tabMenu,String[] tabAcComMenu,Boolean[] tabisEnable) {
 		for(int i=0;i<tabMenu.length;i++) {
@@ -119,9 +162,6 @@ public class BatailleUI extends JFrame {
 		 obParent.add(obChild);
 	}
 
-	public JPanel getPanneauEntete() {
-		return panneauEntete;
-	}
-
+	
 	
 }
