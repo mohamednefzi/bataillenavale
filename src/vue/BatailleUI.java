@@ -5,31 +5,39 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import controleur.IControleur;
+
 @SuppressWarnings("serial")
-public class BatailleUI extends JFrame {
+public class BatailleUI extends JFrame implements IBatailleUI{
 	// attributs
-	private ArrayList<Bateau> bateauJoueur;
-	private ArrayList<Bateau> bateauJoueurEnPlace;
+	
 	
 	private JPanel panneauEntete;
-	int tailleX;
-	int TailleY;
+	private int tailleX;
+	private int TailleY;
+	private TerrainDejeu terrainJoueur;
+	private TerrainDejeu terrainAd;
 	private ArrayList <JMenuItem> menu;
-	
+	private JPanel PanneauOption;
+	private JPanel panneauMsg;
+	private JLabel status;
+	private JComboBox<String> typeDeJeu;
+	private JComboBox<String> typeDeJoueur;
+	private JComboBox<String> choixDeDiffuclté;
+	private IControleur monControleur;
+	private int[] casejouer= new int[2];
 	//lemain batilleUI
-	public static void main(String[] args) {
-		new BatailleUI(10,10);
-	}
 
 	// contructeur
 	public BatailleUI(int tailleX,int tailleY) {
@@ -37,19 +45,20 @@ public class BatailleUI extends JFrame {
 		menu= new ArrayList<>();
 		this.tailleX=tailleX;
 		this.TailleY=tailleY;
-		bateauJoueur = new ArrayList<Bateau>();
-		bateauJoueurEnPlace = new ArrayList<Bateau>();
+		
+		PanneauOption=new JPanel();
+		panneauMsg=new JPanel();
+		status= new JLabel("");
+		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		ImageIcon icone = new ImageIcon("images/icone.jpg");
 		setIconImage(icone.getImage());
 
-		Toolkit outil = getToolkit();
-		this.setSize(outil.getScreenSize());
-		
+		setExtendedState(JFrame.MAXIMIZED_BOTH );
 		String[] tabMenuJeu = { "Jouer", "Recommencer le Jeu", "Reprendre", "Pause", "Quitter" };
-		String[] tabAcComMenuJeu = { "J", "RJ", "P", "R", "Q" };
-		Boolean[] tabIsEnableJeu = { true, false, false, true, true };
+		String[] tabAcComMenuJeu = { "J", "RJ", "R", "P", "Q" };
+		Boolean[] tabIsEnableJeu = { true, false, false, false, true };
 		String[] tabMenuOp = { "Option Graphique", "Option Jeu"};
 		String[] tabAcComMenuOp = {"OG","OJ"};
 		Boolean[] tabIsEnableOp = { true,true};
@@ -71,62 +80,124 @@ public class BatailleUI extends JFrame {
 		panneauEntete.add(menuBar);
 		add(panneauEntete,BorderLayout.NORTH);
 		
-
+		
 		setVisible(true);
 
 	}
 
 	// mutateur et accesseurs
-	public ArrayList<Bateau> getBateauJoueur() {
-		return bateauJoueur;
-	}
-
-	public void setBateauJoueur(ArrayList<Bateau> bateauJoueur) {
-		this.bateauJoueur = bateauJoueur;
-	}
-
+	@Override
 	public ArrayList<JMenuItem> getMenu() {
 		return menu;
 	}
 
+	@Override
+	public JPanel getPanneauOption() {
+		return PanneauOption;
+	}
+	@Override
+	public void setPanneauOption(JPanel PanneauOption) {
+		this.PanneauOption = PanneauOption;
+	}
 	
-	public void addBateau(Bateau bateau) {
-		bateauJoueur.add(bateau);
-	}
-	public void addBateauEnplace(Bateau bateau) {
-		bateauJoueurEnPlace.add(bateau);
-	}
+	@Override
 	public JPanel getPanneauEntete() {
 		return panneauEntete;
 	}
-
-	public ArrayList<Bateau> getBateauJoueurEnPlace() {
-		return bateauJoueurEnPlace;
-	}
-
-	public void setBateauJoueurEnPlace(ArrayList<Bateau> bateauJoueurEnPlace) {
-		this.bateauJoueurEnPlace = bateauJoueurEnPlace;
-	}
-
-
+	
+	
+	@Override
 	public int getTailleX() {
 		return tailleX;
 	}
-
+	@Override
 	public void setTailleX(int tailleX) {
 		this.tailleX = tailleX;
 	}
-
+	@Override
 	public int getTailleY() {
 		return TailleY;
 	}
-
+	@Override
 	public void setTailleY(int tailleY) {
 		TailleY = tailleY;
 	}
 
+	
+	@Override
+	public TerrainDejeu getTerrainJoueur() {
+		return terrainJoueur;
+	}
+
+	
+	@Override
+	public void setTerrainJoueur(TerrainDejeu terrainJoueur) {
+		this.terrainJoueur = terrainJoueur;
+	}
+
+	
+	@Override
+	public TerrainDejeu getTerrainAd() {
+		return terrainAd;
+	}
+
+	
+	@Override
+	public void setTerrainAd(TerrainDejeu terrainAd) {
+		this.terrainAd = terrainAd;
+	}
+
+	public JPanel getPanneauMsg() {
+		return panneauMsg;
+	}
+
+	public void setPanneauMsg(JPanel panneauMsg) {
+		this.panneauMsg = panneauMsg;
+	}
+
+	public JLabel getStatus() {
+		return status;
+	}
+
+	
+	public JComboBox<String> getTypeDeJeu() {
+		return typeDeJeu;
+	}
+
+	public void setTypeDeJeu(JComboBox<String> typeDeJeu) {
+		this.typeDeJeu = typeDeJeu;
+	}
+
+	public JComboBox<String> getTypeDeJoueur() {
+		return typeDeJoueur;
+	}
+
+	public void setTypeDeJoueur(JComboBox<String> typeDeJoueur) {
+		this.typeDeJoueur = typeDeJoueur;
+	}
+
+	public JComboBox<String> getChoixDeDiffuclté() {
+		return choixDeDiffuclté;
+	}
+
+	public void setChoixDeDiffuclté(JComboBox<String> choixDeDiffuclté) {
+		this.choixDeDiffuclté = choixDeDiffuclté;
+	}
+	@Override
+	public IControleur getMonControleur() {
+		return monControleur;
+	}
+	@Override
+	public void setMonControleur(IControleur monControleur) {
+		this.monControleur = monControleur;
+	}
+	@Override
+	public int[] getCaseJoue() {
+		return casejouer;
+	}
 	// methodes
 	// methode pour desactiver tout les composant d'un conteneur de type object
+	@Override
 	public void setEnabledAll(Object object, boolean state) {
 		if (object instanceof Container) {
 			Container c = (Container) object;
@@ -157,11 +228,21 @@ public class BatailleUI extends JFrame {
 			
 		}
 	}
-	
-	void addComponent(Container obParent,Component obChild) {
+	@Override
+	public void addComponent(Container obParent,Component obChild) {
 		 obParent.add(obChild);
 	}
 
 	
-	
+	 public void setEnableChange(String [] lesSousMenu, boolean state) {
+		for (JMenuItem sousmenu : menu) {
+			for(String chaineAcComm:lesSousMenu)
+			if (sousmenu.getActionCommand().equals(chaineAcComm))
+				sousmenu.setEnabled(state);
+		}
+	}
+	 public void setCaseJoue(int posX,int posY) {
+		 casejouer[0]=posX;
+		 casejouer[1]=posY;
+	 }
 }

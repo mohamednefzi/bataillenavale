@@ -13,17 +13,19 @@ import javax.swing.JPanel;
 class Bateau extends JPanel {
 	private int nbCase;
 	private int direction;
+	private int id;
 	private ArrayList<MorceauBateau> morceauBateau;
 
-	public Bateau(int nbCase) {
+	public Bateau(int nbCase,int id) {
 		super();
 		this.nbCase = nbCase;
+		this.setId(id);
 		morceauBateau= new ArrayList<>();
 		direction = (int) (Math.random() * 2);
 		if (direction == 0) // direction horizontale
-			setLayout(new GridLayout(this.nbCase, 1));
-		else
 			setLayout(new GridLayout(1, this.nbCase));
+		else
+			setLayout(new GridLayout(this.nbCase,1 ));
 		for (int i = 0; i < this.nbCase; i++) {
 
 			JButton partition = new JButton();
@@ -60,15 +62,23 @@ class Bateau extends JPanel {
 		this.morceauBateau = morceauBateau;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	
 }
 
 
 
 //classe morceau bateau encapsulé dans bateau
-class MorceauBateau {
-	private int posX = -1;
-	private int posY = -1;
+class MorceauBateau{
+	private int posX ;
+	private int posY;
 	private Boolean estTouche;
 
 	public MorceauBateau(int posX, int posY) {
