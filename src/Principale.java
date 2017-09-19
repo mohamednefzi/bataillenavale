@@ -31,6 +31,10 @@ public class Principale {
 		monControleur=new Controleur(maBataille);
 		maBataille.setMonControleur(monControleur);
 
+		maBataille=new BatailleUI(10,10);
+		monControleur=new Controleur(maBataille);
+		maBataille.setMonControleur(monControleur);
+
 	}
 
 }

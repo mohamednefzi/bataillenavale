@@ -55,7 +55,7 @@ class MenuEvent implements ActionListener {
 			laBataille.getTypeDeJoueur().addItem("Client");
 
 			laBataille.getChoixDeDiffuclté().addItem("Facile");
-			laBataille.getChoixDeDiffuclté().addItem("moyen");
+			laBataille.getChoixDeDiffuclté().addItem("Moyen");
 			laBataille.getChoixDeDiffuclté().addItem("Difficile");
 
 			JButton bouttonPosition = new JButton("Commencer à jouer");
@@ -68,8 +68,9 @@ class MenuEvent implements ActionListener {
 			laBataille.add(laBataille.getPanneauOption(), BorderLayout.SOUTH);
 
 			JPanel terrainJeu = new JPanel();
-			laBataille.setTerrainJoueur(new TerrainDejeu(laBataille.getTailleX(), laBataille.getTailleY(), false,laBataille));
-			laBataille.setTerrainAd(new TerrainDejeu(laBataille.getTailleX(), laBataille.getTailleY(), true,laBataille));
+			
+			laBataille.setTerrainJoueur(new TerrainDeJeu(laBataille.getTailleX(), laBataille.getTailleY(), false,laBataille));
+			laBataille.setTerrainAd(new TerrainDeJeu(laBataille.getTailleX(), laBataille.getTailleY(), true,laBataille));
 
 			terrainJeu.add(laBataille.getTerrainAd());
 			terrainJeu.add(new JPanel());
@@ -134,21 +135,20 @@ class ecouteurBouttonAleatoire implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		String IPServeur="";
 		System.out.println(laBataille.getTypeDeJoueur().getSelectedItem());
 		if (laBataille.getTypeDeJoueur().getSelectedItem() == "Client"&&laBataille.getTypeDeJoueur().isEnabled()) {
-			String IPServeur = JOptionPane.showInputDialog(null, "Entrez l'IP du Serveur", "",
+		 IPServeur = JOptionPane.showInputDialog(null, "Entrez l'IP du Serveur", "",
 					JOptionPane.QUESTION_MESSAGE);
 			System.out.println(IPServeur);
 		}
-
-		for(int[] tab:laBataille.getMonControleur().creerBateau()) {
-			System.out.println("X="+tab[0]+"  Y="+tab[1]+"  id="+tab[2]);
-			laBataille.getTerrainJoueur().positionnerMorceauBateau(tab[0], tab[1], tab[2]);
-			
+		if(IPServeur!="") {
+			laBataille.getMonControleur().setAdresseIP(IPServeur);
 		}
-		
+		laBataille.getMonControleur().activeSocket();
+		laBataille.getMonControleur().startThread();
 		laBataille.setEnabledAll(laBataille.getPanneauOption(), false);
-	}
+		}
 	
 }
 

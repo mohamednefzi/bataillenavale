@@ -9,23 +9,45 @@ import javax.swing.JPanel;
 import controleur.IControleur;
 
 public interface IBatailleUI {
-	
+
 	public ArrayList<JMenuItem> getMenu();
-	public JPanel getPanneauOption() ;
+
+	public JPanel getPanneauOption();
+
 	public void setPanneauOption(JPanel PanneauOption);
+
 	public JPanel getPanneauEntete();
+
 	public int getTailleX();
+
 	public void setTailleX(int tailleX);
+
 	public int getTailleY();
+
 	public void setTailleY(int tailleY);
-	public TerrainDejeu getTerrainJoueur() ;
-	public void setTerrainJoueur(TerrainDejeu terrainJoueur);
-	public TerrainDejeu getTerrainAd();
-	public void setTerrainAd(TerrainDejeu terrainAd);
+
+	public TerrainDeJeu getTerrainJoueur();
+
+	public void setTerrainJoueur(TerrainDeJeu terrainJoueur);
+
+	public TerrainDeJeu getTerrainAd();
+
+	public void setTerrainAd(TerrainDeJeu terrainAd);
+
 	public void setEnabledAll(Object object, boolean state);
-	public void addComponent(Container obParent,Component obChild);
+
+	public void addComponent(Container obParent, Component obChild);
+
 	public IControleur getMonControleur();
+
 	public void setMonControleur(IControleur monControleur);
+
 	public int[] getCaseJoue();
-	
+
+	public int getTypeJeu();
+
+	public int getTypeJoueur();
+
+	public int getdificulte();
+
 }
